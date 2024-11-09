@@ -19,4 +19,10 @@ class Team {
       strDescriptionEN: json['strDescriptionEN'],
     );
   }
+  bool get isDataComplete {
+    return strTeam.isNotEmpty &&
+        strStadium.isNotEmpty &&
+        strBadge.isNotEmpty &&
+        strDescriptionEN.isNotEmpty;
+  }
 }

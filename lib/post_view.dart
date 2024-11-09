@@ -1,4 +1,4 @@
-import 'package:api_project/description_page.dart';
+import 'package:api_project/detail_page.dart';
 import 'package:api_project/post_controller.dart';
 import 'package:api_project/post_model.dart';
 import 'package:flutter/material.dart';
@@ -23,12 +23,12 @@ class PostView extends StatelessWidget {
           itemCount: postController.postList.length,
           itemBuilder: (context, index) {
             final post = postController.postList[index];
-            GestureDetector(
+            return GestureDetector(
               onTap: () {
                 try {
                   if (post.strBadge.isNotEmpty &&
                       post.strDescriptionEN.isNotEmpty) {
-                    Get.to(() => DescriptionPage(post: post));
+                    Get.to(() => DetailPage(post: post));
                   } else {
                     Get.snackbar(
                       'Error',
@@ -49,6 +49,24 @@ class PostView extends StatelessWidget {
               },
               child: Card(
                 child: ListTile(
+                  leading: Hero(
+                    tag: 'team-${post.strTeam}',
+                    child: post.strBadge.isNotEmpty
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(5),
+                            child: Image.network(post.strBadge,
+                                width: 50, height: 50, fit: BoxFit.cover),
+                          )
+                        : Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: const Icon(Icons.sports_football_outlined),
+                          ),
+                  ),
                   title: Text(post.strTeam),
                   subtitle: Text(post.strStadium),
                 ),
