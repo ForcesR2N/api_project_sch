@@ -1,3 +1,4 @@
+import 'package:api_project/component/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
@@ -29,7 +30,7 @@ class _ExpandableDescriptionState extends State<ExpandableDescription> {
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
-            color: Colors.black,
+            color: Colors.white,
           ),
         ),
         const SizedBox(height: 8),
@@ -37,7 +38,7 @@ class _ExpandableDescriptionState extends State<ExpandableDescription> {
           displayText,
           style: TextStyle(
             fontSize: 16,
-            color: Colors.grey[800],
+            color: Colors.white70,
             height: 1.5,
           ),
           textAlign: TextAlign.justify,

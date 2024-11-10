@@ -19,20 +19,4 @@ class ApiService {
       throw Exception('Failed to load posts');
     }
   }
-
- Future<List<Player>> fetchPlayers(String teamId) async {
-    final uri = Uri.https('www.thesportsdb.com', '/api/v1/json/3/lookup_all_players.php', {
-      'id': teamId,
-    });
-
-    final response = await http.get(uri);
-
-    if (response.statusCode == 200) {
-      var jsonData = jsonDecode(response.body);
-      List data = jsonData['player'] ?? []; 
-      return data.map((json) => Player.fromJson(json)).toList();
-    } else {
-      throw Exception('Failed to load players');
-    }
-  }
 }
