@@ -26,3 +26,26 @@ class Team {
         strDescriptionEN.isNotEmpty;
   }
 }
+
+class Player {
+  final String strPlayer;
+  final String strPosition;
+  final String strNationality;
+  final String strCutout;
+
+  Player({
+    required this.strPlayer,
+    required this.strPosition,
+    required this.strNationality,
+    required this.strCutout,
+  });
+
+  factory Player.fromJson(Map<String, dynamic> json) {
+    return Player(
+      strPlayer: json['strPlayer'],
+      strPosition: json['strPosition'],
+      strNationality: json['strNationality'],
+      strCutout: json['strCutout'],
+    );
+  }
+}

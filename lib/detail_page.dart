@@ -1,3 +1,4 @@
+import 'package:api_project/widgets/expandable_description.dart';
 import 'package:flutter/material.dart';
 import 'package:api_project/post_model.dart';
 
@@ -21,7 +22,7 @@ class DetailPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (post.strBadge.isNotEmpty) // Check if badge URL exists
+            if (post.strBadge.isNotEmpty) 
               Container(
                 width: double.infinity,
                 height: 250,
@@ -58,7 +59,7 @@ class DetailPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  if (post.strStadium.isNotEmpty) // Check if stadium exists
+                  if (post.strStadium.isNotEmpty) 
                     Row(
                       children: [
                         const Icon(Icons.stadium, color: Colors.grey),
@@ -74,30 +75,8 @@ class DetailPage extends StatelessWidget {
                     ),
                   const SizedBox(height: 24),
                   if (post.strDescriptionEN
-                      .isNotEmpty) // Check if description exists
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          "Description",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          post.strDescriptionEN,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.grey[800],
-                            height: 1.5,
-                          ),
-                          textAlign: TextAlign.justify,
-                        ),
-                      ],
-                    ),
+                      .isNotEmpty)
+                   ExpandableDescription(description: post.strDescriptionEN),
                 ],
               ),
             ),
