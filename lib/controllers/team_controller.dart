@@ -1,5 +1,5 @@
 import 'package:api_project/api_service.dart';
-import 'package:api_project/post_model.dart';
+import 'package:api_project/models/post_model.dart';
 import 'package:get/get.dart';
 
 class PostController extends GetxController {

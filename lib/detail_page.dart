@@ -1,6 +1,6 @@
+import 'package:api_project/models/post_model.dart';
 import 'package:api_project/widgets/expandable_description.dart';
 import 'package:flutter/material.dart';
-import 'package:api_project/post_model.dart';
 
 class DetailPage extends StatelessWidget {
   final Team post;

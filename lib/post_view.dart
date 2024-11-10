@@ -1,6 +1,5 @@
+import 'package:api_project/controllers/team_controller.dart';
 import 'package:api_project/detail_page.dart';
-import 'package:api_project/post_controller.dart';
-import 'package:api_project/post_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

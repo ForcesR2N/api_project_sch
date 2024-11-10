@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:api_project/post_model.dart';
+import 'package:api_project/models/post_model.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
