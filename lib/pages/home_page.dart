@@ -1,6 +1,6 @@
 import 'package:api_project/component/my_colors.dart';
 import 'package:api_project/controllers/team_controller.dart';
-import 'package:api_project/detail_page.dart';
+import 'package:api_project/pages/detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -139,6 +139,18 @@ class HomePage extends StatelessWidget {
                                         child: Image.network(
                                           team.strBadge,
                                           fit: BoxFit.cover,
+                                          loadingBuilder: (context, child,
+                                              loadingProgress) {
+                                            if (loadingProgress == null)
+                                              return child;
+                                            return Center(
+                                              child: Lottie.asset(
+                                                'lib/assets/animation_mini_loading.json',
+                                                width: 40,
+                                                height: 40,
+                                              ),
+                                            );
+                                          },
                                           errorBuilder:
                                               (context, error, stackTrace) =>
                                                   const Icon(

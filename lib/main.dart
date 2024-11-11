@@ -1,5 +1,6 @@
 import 'package:api_project/controllers/team_controller.dart';
-import 'package:api_project/home_page.dart';
+import 'package:api_project/pages/home_page.dart';
+import 'package:api_project/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 
