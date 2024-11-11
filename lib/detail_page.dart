@@ -14,7 +14,7 @@ class DetailPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           "Detail",
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         backgroundColor: AppColor.backgroundColor,
         elevation: 0,

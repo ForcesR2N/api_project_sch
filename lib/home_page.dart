@@ -3,6 +3,7 @@ import 'package:api_project/controllers/team_controller.dart';
 import 'package:api_project/detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
 class HomePage extends StatelessWidget {
   final TeamController teamController = Get.put(TeamController());
@@ -35,11 +36,12 @@ class HomePage extends StatelessWidget {
       body: Obx(
         () {
           if (teamController.isLoading.value) {
-            return const Center(
+            return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CircularProgressIndicator(),
+                  Lottie.asset('lib/assets/animation_loading.json',
+                      width: 200, height: 200),
                   SizedBox(height: 16),
                   Text(
                     'Loading teams...',
