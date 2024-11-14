@@ -1,4 +1,4 @@
-import 'package:api_project/api_service.dart';
+import 'package:api_project/controllers/api_service.dart';
 import 'package:api_project/models/post_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
