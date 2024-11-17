@@ -2,7 +2,7 @@ import 'package:api_project/controllers/bottom_navbar_controller.dart';
 import 'package:api_project/controllers/team_controller.dart';
 import 'package:api_project/pages/home.dart';
 import 'package:api_project/pages/home_page.dart';
-import 'package:api_project/pages/login_page.dart';
+import 'package:api_project/pages/login_register/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';

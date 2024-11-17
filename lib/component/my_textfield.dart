@@ -1,5 +1,4 @@
 import 'package:api_project/component/my_colors.dart';
-import 'package:api_project/controllers/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -22,7 +21,6 @@ class MyTextfield extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Controller controller = Get.put(Controller());
 
     return SizedBox(
       child: TextFormField(
@@ -43,7 +41,7 @@ class MyTextfield extends StatelessWidget {
             ),
           ),
         ),
-        obscureText: false,
+        obscureText: obscureText,
         onChanged: onChanged,
         validator: validator,
       ),
