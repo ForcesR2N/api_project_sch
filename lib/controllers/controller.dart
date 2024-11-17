@@ -1,9 +1,14 @@
 import 'package:get/get.dart';
 
 class Controller extends GetxController {
-  var name = ''.obs;
+  var username = ''.obs;
+  var password = ''.obs;
 
-  void changedName(String newName) {
-    name.value = newName;
+  void changedUsername(String value) {
+    username.value = value.trim();
+  }
+
+    void changedPassword(String value) {
+    password.value = value.trim();
   }
 }

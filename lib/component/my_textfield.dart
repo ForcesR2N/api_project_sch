@@ -7,19 +7,30 @@ class MyTextfield extends StatelessWidget {
   final String labelText;
   final String hintText;
   final bool obscureText;
-  MyTextfield({super.key, required this.labelText, required this.hintText, required this.obscureText});
+  final Icon prefixIcon;
+  final Function(String)? onChanged;
+  final String? Function(String?)? validator;
+
+  MyTextfield(
+      {super.key,
+      required this.labelText,
+      required this.hintText,
+      required this.obscureText,
+      required this.prefixIcon,
+      this.onChanged,
+      this.validator});
 
   @override
   Widget build(BuildContext context) {
     final Controller controller = Get.put(Controller());
 
     return SizedBox(
-      child: TextField(
+      child: TextFormField(
         decoration: InputDecoration(
-          labelText: 'Username',
-          hintText: 'Enter your username',
+          labelText: labelText,
+          hintText: hintText,
           labelStyle: TextStyle(color: AppColor.primaryBlue),
-          prefixIcon: Icon(Icons.person_2_rounded),
+          prefixIcon: prefixIcon,
           filled: true,
           fillColor: Colors.white,
           contentPadding:
@@ -33,9 +44,8 @@ class MyTextfield extends StatelessWidget {
           ),
         ),
         obscureText: false,
-        onChanged: (value) {
-          controller.changedName(value);
-        },
+        onChanged: onChanged,
+        validator: validator,
       ),
     );
   }
