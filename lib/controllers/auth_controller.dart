@@ -3,37 +3,60 @@ import 'package:api_project/pages/home_page.dart';
 import 'package:api_project/pages/login_register/login_page.dart';
 import 'package:api_project/utils/snackbar_helper.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthController extends GetxController {
+  static const String KEY_IS_LOGGED_IN = 'isLoggedIn';
+  static const String KEY_USERNAME = 'username';
+  static const String KEY_FULL_NAME = 'fullName';
+  static const String KEY_EMAIL = 'email';
+
   var isLoading = false.obs;
   var username = ''.obs;
   var password = ''.obs;
   var fullName = ''.obs;
   var email = ''.obs;
-  
-  final box = GetStorage();
+  var isLoggedIn = false.obs;
 
-  @override
+  late SharedPreferences _prefs;
+
+   @override
   void onInit() {
     super.onInit();
-    checkLoginStatus();
   }
 
-  void checkLoginStatus() {
-    if (box.read('isLoggedIn') == true) {
-      username.value = box.read('username') ?? '';
-      fullName.value = box.read('fullName') ?? '';
-      email.value = box.read('email') ?? '';
-      Get.offAll(() => HomePage());
+    Future<void> initializeController() async {
+    _prefs = await SharedPreferences.getInstance();
+    await loadUserData();
+    print("Auth State: ${isLoggedIn.value}"); // Debug print
+  }
+
+   Future<void> loadUserData() async {
+    try {
+      isLoggedIn.value = _prefs.getBool(KEY_IS_LOGGED_IN) ?? false;
+      if (isLoggedIn.value) {
+        username.value = _prefs.getString(KEY_USERNAME) ?? '';
+        fullName.value = _prefs.getString(KEY_FULL_NAME) ?? '';
+        email.value = _prefs.getString(KEY_EMAIL) ?? '';
+        print("Loaded user data - Username: ${username.value}"); // Debug print
+      }
+    } catch (e) {
+      print("Error loading user data: $e"); // Debug print
+      isLoggedIn.value = false;
     }
   }
 
-  void saveUserData() {
-    box.write('isLoggedIn', true);
-    box.write('username', username.value);
-    box.write('fullName', fullName.value);
-    box.write('email', email.value);
+  Future<void> saveUserData() async {
+    try {
+      await _prefs.setBool(KEY_IS_LOGGED_IN, true);
+      await _prefs.setString(KEY_USERNAME, username.value);
+      await _prefs.setString(KEY_FULL_NAME, fullName.value);
+      await _prefs.setString(KEY_EMAIL, email.value);
+      isLoggedIn.value = true;
+      print("Saved user data successfully"); // Debug print
+    } catch (e) {
+      print("Error saving user data: $e"); // Debug print
+    }
   }
 
   void updateUsername(String value) => username.value = value.trim();
@@ -45,13 +68,18 @@ class AuthController extends GetxController {
     password.value = '';
   }
 
-  void clearAllFields() {
-    username.value = '';
-    password.value = '';
-    fullName.value = '';
-    email.value = '';
-    // Clear storage saat logout
-    box.erase();
+  Future<void> clearAllFields() async {
+    try {
+      await _prefs.clear();
+      username.value = '';
+      password.value = '';
+      fullName.value = '';
+      email.value = '';
+      isLoggedIn.value = false;
+      print("Cleared all fields and preferences"); // Debug print
+    } catch (e) {
+      print("Error clearing data: $e"); // Debug print
+    }
   }
 
   bool isValidEmail(String email) {
@@ -78,11 +106,11 @@ class AuthController extends GetxController {
           fullName.value = data['full_name'] ?? '';
           email.value = data['email'] ?? '';
         }
-        
-        saveUserData(); // Simpan data user setelah login berhasil
+
+        await saveUserData();
         SnackbarHelper.showSuccess('Login successful!');
         clearFields();
-        Get.offAll( // Gunakan offAll agar tidak bisa kembali ke login page
+        Get.offAll(
           () => HomePage(),
           transition: Transition.fadeIn,
           duration: const Duration(milliseconds: 500),
@@ -98,7 +126,7 @@ class AuthController extends GetxController {
   }
 
   void logout() {
-    clearAllFields(); // Ini akan menghapus data di storage juga
+    clearAllFields(); 
     Get.offAll(
       () => const LoginPage(),
       transition: Transition.fadeIn,
