@@ -1,4 +1,5 @@
 import 'package:api_project/component/my_colors.dart';
+import 'package:api_project/controllers/auth_controller.dart';
 import 'package:api_project/controllers/bottom_navbar_controller.dart';
 import 'package:api_project/pages/home.dart';
 import 'package:api_project/pages/profile_page.dart';
@@ -16,42 +17,48 @@ class HomePage extends StatelessWidget {
     final List<Widget> menus = [
       Home(),
       SearchPage(),
-      ProfilePage(),
+      ProfilePage(
+        authController: Get.find<AuthController>(),
+      ),
     ];
 
     return Obx(() {
-      return Scaffold(
-        body: AnimatedSwitcher(
-          duration: Duration(milliseconds: 200),
-          child: menus[bottomnavbarController.selectedIndex.value],
-        ),
-        bottomNavigationBar: Container(
-          height: 90,
-          decoration: BoxDecoration(
-            color: AppColor.primaryBlue,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                blurRadius: 20,
-                offset: Offset(0, -5),
-              ),
-            ],
-          ),
-          child: SafeArea(
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 15.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _buildNavItem(Icons.home_rounded, 'Home', 0),
-                  _buildNavItem(Icons.search, 'Search', 1),
-                  _buildNavItem(Icons.person_rounded, 'Profile', 2),
+      return WillPopScope(
+          onWillPop: () async {
+            return false;
+          },
+          child: Scaffold(
+            body: AnimatedSwitcher(
+              duration: Duration(milliseconds: 200),
+              child: menus[bottomnavbarController.selectedIndex.value],
+            ),
+            bottomNavigationBar: Container(
+              height: 90,
+              decoration: BoxDecoration(
+                color: AppColor.primaryBlue,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 20,
+                    offset: Offset(0, -5),
+                  ),
                 ],
               ),
+              child: SafeArea(
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 15.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _buildNavItem(Icons.home_rounded, 'Home', 0),
+                      _buildNavItem(Icons.search, 'Search', 1),
+                      _buildNavItem(Icons.person_rounded, 'Profile', 2),
+                    ],
+                  ),
+                ),
+              ),
             ),
-          ),
-        ),
-      );
+          ));
     });
   }
 
@@ -69,21 +76,20 @@ class HomePage extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               AnimatedContainer(
-                  duration: Duration(microseconds: 700),
-                  curve: Curves.easeInOut,
-                  padding: EdgeInsets.all(isSelected ? 8 : 6),
-                  decoration: BoxDecoration(
-                    color:
-                        isSelected ? AppColor.primaryBlue : Colors.transparent,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    icon,
-                    color: isSelected
-                        ? Colors.white
-                        : Colors.white.withOpacity(0.5),
-                    size: 24,
-                  ))
+                duration: Duration(microseconds: 700),
+                curve: Curves.easeInOut,
+                padding: EdgeInsets.all(isSelected ? 8 : 6),
+                decoration: BoxDecoration(
+                  color: isSelected ? AppColor.primaryBlue : Colors.transparent,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  icon,
+                  color:
+                      isSelected ? Colors.white : Colors.white.withOpacity(0.5),
+                  size: 24,
+                ),
+              )
             ],
           ),
         ),

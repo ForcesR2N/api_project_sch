@@ -16,6 +16,9 @@ class Responsive extends StatelessWidget {
 
   static bool isDesktop(BuildContext context) =>
       MediaQuery.of(context).size.width >= 1900;
+  
+  static bool isLandscape(BuildContext context) =>
+      MediaQuery.of(context).orientation == Orientation.landscape;
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +36,20 @@ class Responsive extends StatelessWidget {
   }
 }
 
-extension ResponsiveSpacing on BuildContext {
-  double get spacing => Responsive.isTablet(this) ? 16.0 : 12.0;
-  double get radius => Responsive.isTablet(this) ? 16.0 : 12.0;
-  double get fontSize => Responsive.isTablet(this) ? 16.0 : 14.0;
-  double get iconSize => Responsive.isTablet(this) ? 24.0 : 20.0;
+extension ResponsiveSize on BuildContext {
+  double get spacing => Responsive.isLandscape(this)
+      ? (Responsive.isMobile(this) ? 12.0 : 16.0)
+      : (Responsive.isMobile(this) ? 16.0 : 24.0);
+
+  double get radius => Responsive.isLandscape(this)
+      ? (Responsive.isMobile(this) ? 12.0 : 15.0)
+      : (Responsive.isMobile(this) ? 15.0 : 20.0);
+
+  double get iconSize => Responsive.isLandscape(this)
+      ? (Responsive.isMobile(this) ? 20.0 : 24.0)
+      : (Responsive.isMobile(this) ? 24.0 : 28.0);
+
+  double get fontSize => Responsive.isLandscape(this)
+      ? (Responsive.isMobile(this) ? 14.0 : 16.0)
+      : (Responsive.isMobile(this) ? 16.0 : 18.0);
 }

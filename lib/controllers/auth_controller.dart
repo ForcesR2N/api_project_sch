@@ -1,8 +1,9 @@
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
+import 'package:api_project/controllers/api_service.dart';
+import 'package:api_project/pages/home_page.dart';
+import 'package:api_project/pages/login_register/login_page.dart';
+import 'package:api_project/utils/snackbar_helper.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
+import 'package:get_storage/get_storage.dart';
 
 class AuthController extends GetxController {
   var isLoading = false.obs;
@@ -10,12 +11,29 @@ class AuthController extends GetxController {
   var password = ''.obs;
   var fullName = ''.obs;
   var email = ''.obs;
+  
+  final box = GetStorage();
 
-  void clearFields() {
-    username.value = '';
-    password.value = '';
-    fullName.value = '';
-    email.value = '';
+  @override
+  void onInit() {
+    super.onInit();
+    checkLoginStatus();
+  }
+
+  void checkLoginStatus() {
+    if (box.read('isLoggedIn') == true) {
+      username.value = box.read('username') ?? '';
+      fullName.value = box.read('fullName') ?? '';
+      email.value = box.read('email') ?? '';
+      Get.offAll(() => HomePage());
+    }
+  }
+
+  void saveUserData() {
+    box.write('isLoggedIn', true);
+    box.write('username', username.value);
+    box.write('fullName', fullName.value);
+    box.write('email', email.value);
   }
 
   void updateUsername(String value) => username.value = value.trim();
@@ -23,64 +41,100 @@ class AuthController extends GetxController {
   void updateFullName(String value) => fullName.value = value.trim();
   void updateEmail(String value) => email.value = value.trim();
 
-  Future<void> register() async {
+  void clearFields() {
+    password.value = '';
+  }
+
+  void clearAllFields() {
+    username.value = '';
+    password.value = '';
+    fullName.value = '';
+    email.value = '';
+    // Clear storage saat logout
+    box.erase();
+  }
+
+  bool isValidEmail(String email) {
+    return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
+  }
+
+  Future<void> login() async {
     try {
+      if (username.isEmpty || password.isEmpty) {
+        SnackbarHelper.showError('Username and password are required!');
+        return;
+      }
+
       isLoading.value = true;
 
-      final response = await http.post(
-        Uri.parse('https://mediadwi.com/api/latihan/register-user'),
-        body: {
-          'username': username,
-          'password': password,
-          'full_name': fullName,
-          'email': email,
-        },
+      final response = await ApiService.login(
+        username.value,
+        password.value,
       );
-      final data = jsonDecode(response.body);
-      if (response.statusCode == 200) {
-        Get.snackbar(
-          'Success',
-          'Registration successful!',
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
-        );
+
+      if (response['status'] == true) {
+        if (response['data'] != null) {
+          final data = response['data'];
+          fullName.value = data['full_name'] ?? '';
+          email.value = data['email'] ?? '';
+        }
+        
+        saveUserData(); // Simpan data user setelah login berhasil
+        SnackbarHelper.showSuccess('Login successful!');
         clearFields();
-        Get.back();
-      } else {
-        Get.snackbar(
-          'Error',
-          data['message'] ?? 'Registration failed',
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
+        Get.offAll( // Gunakan offAll agar tidak bisa kembali ke login page
+          () => HomePage(),
+          transition: Transition.fadeIn,
+          duration: const Duration(milliseconds: 500),
         );
+      } else {
+        SnackbarHelper.showError(response['message'] ?? 'Login failed');
       }
     } catch (e) {
-      Get.snackbar(
-        'Error',
-        e.toString(),
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
+      SnackbarHelper.showError('An unexpected error occurred: ${e.toString()}');
     } finally {
       isLoading.value = false;
     }
   }
 
-  Future<void> login() async {
+  void logout() {
+    clearAllFields(); // Ini akan menghapus data di storage juga
+    Get.offAll(
+      () => const LoginPage(),
+      transition: Transition.fadeIn,
+      duration: const Duration(milliseconds: 500),
+    );
+  }
+
+  Future<void> register() async {
     try {
+      if (!isValidEmail(email.value)) {
+        SnackbarHelper.showError('Please enter a valid email address');
+        return;
+      }
+
       isLoading.value = true;
 
-      final response = await http.post(
-          Uri.parse('https://mediadwi.com/api/latihan/login'),
-          body: {'username': username, 'password': password});
-      if (response.statusCode == 200) {
-        Get.snackbar('Success', 'Login Success');
-        clearFields();
+      final response = await ApiService.register(
+        username: username.value,
+        password: password.value,
+        fullName: fullName.value,
+        email: email.value,
+      );
+
+      if (response['status'] == true) {
+        SnackbarHelper.showSuccess('Registration success');
+        clearAllFields();
+        Get.off(
+          () => const LoginPage(),
+          transition: Transition.fadeIn,
+          duration: const Duration(milliseconds: 500),
+        );
       } else {
-        Get.snackbar('Failed', 'Login Failed');
+        SnackbarHelper.showError(response['message'] ?? 'Registration failed');
       }
     } catch (e) {
-      Get.snackbar('Error', e.toString());
+      SnackbarHelper.showError('An unexpected error occurred: ${e.toString()}');
     } finally {
       isLoading.value = false;
     }
