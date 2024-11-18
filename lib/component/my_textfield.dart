@@ -1,6 +1,5 @@
 import 'package:api_project/component/my_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class MyTextfield extends StatelessWidget {
   final String labelText;
