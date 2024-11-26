@@ -23,39 +23,35 @@ class AuthController extends GetxController {
    @override
   void onInit() {
     super.onInit();
+    initializeController();
   }
 
     Future<void> initializeController() async {
     _prefs = await SharedPreferences.getInstance();
     await loadUserData();
-    print("Auth State: ${isLoggedIn.value}"); // Debug print
+    isLoggedIn.value = ApiService.sessionToken != null;
+    print("Auth State: ${isLoggedIn.value}");
   }
 
    Future<void> loadUserData() async {
     try {
-      isLoggedIn.value = _prefs.getBool(KEY_IS_LOGGED_IN) ?? false;
-      if (isLoggedIn.value) {
-        username.value = _prefs.getString(KEY_USERNAME) ?? '';
-        fullName.value = _prefs.getString(KEY_FULL_NAME) ?? '';
-        email.value = _prefs.getString(KEY_EMAIL) ?? '';
-        print("Loaded user data - Username: ${username.value}"); // Debug print
-      }
+      username.value = _prefs.getString(KEY_USERNAME) ?? '';
+      fullName.value = _prefs.getString(KEY_FULL_NAME) ?? '';
+      email.value = _prefs.getString(KEY_EMAIL) ?? '';
+      print("Loaded user data - Username: ${username.value}");
     } catch (e) {
-      print("Error loading user data: $e"); // Debug print
-      isLoggedIn.value = false;
+      print("Error loading user data: $e");
     }
   }
 
   Future<void> saveUserData() async {
     try {
-      await _prefs.setBool(KEY_IS_LOGGED_IN, true);
       await _prefs.setString(KEY_USERNAME, username.value);
       await _prefs.setString(KEY_FULL_NAME, fullName.value);
       await _prefs.setString(KEY_EMAIL, email.value);
-      isLoggedIn.value = true;
-      print("Saved user data successfully"); // Debug print
+      print("Saved user data successfully");
     } catch (e) {
-      print("Error saving user data: $e"); // Debug print
+      print("Error saving user data: $e");
     }
   }
 
@@ -76,9 +72,10 @@ class AuthController extends GetxController {
       fullName.value = '';
       email.value = '';
       isLoggedIn.value = false;
-      print("Cleared all fields and preferences"); // Debug print
+      ApiService.clearSession();
+      print("Cleared all fields and preferences"); 
     } catch (e) {
-      print("Error clearing data: $e"); // Debug print
+      print("Error clearing data: $e"); 
     }
   }
 
@@ -108,6 +105,7 @@ class AuthController extends GetxController {
         }
 
         await saveUserData();
+        isLoggedIn.value = ApiService.sessionToken != null;
         SnackbarHelper.showSuccess('Login successful!');
         clearFields();
         Get.offAll(
@@ -132,6 +130,17 @@ class AuthController extends GetxController {
       transition: Transition.fadeIn,
       duration: const Duration(milliseconds: 500),
     );
+  }
+
+  void handleSessionExpiry() {
+    isLoggedIn.value = false;
+    ApiService.clearSession();
+    Get.offAll(
+      () => const LoginPage(),
+      transition: Transition.fadeIn,
+      duration: const Duration(milliseconds: 500),
+    );
+    SnackbarHelper.showError('Session expired. Please login again.');
   }
 
   Future<void> register() async {

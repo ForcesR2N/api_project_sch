@@ -8,6 +8,7 @@ class MyTextfield extends StatelessWidget {
   final Icon prefixIcon;
   final Function(String)? onChanged;
   final String? Function(String?)? validator;
+  final TextEditingController? controller;
 
   MyTextfield(
       {super.key,
@@ -16,13 +17,14 @@ class MyTextfield extends StatelessWidget {
       required this.obscureText,
       required this.prefixIcon,
       this.onChanged,
-      this.validator});
+      this.validator, this.controller});
 
   @override
   Widget build(BuildContext context) {
 
     return SizedBox(
       child: TextFormField(
+        controller: controller,
         decoration: InputDecoration(
           labelText: labelText,
           hintText: hintText,

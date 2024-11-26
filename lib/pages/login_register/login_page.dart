@@ -33,6 +33,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   children: [
                     MyTextfield(
+                      controller: usernameController,
                       labelText: 'Username',
                       hintText: 'Enter your username',
                       obscureText: false,
@@ -47,8 +48,9 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     const SizedBox(height: 20),
                     MyTextfield(
+                      controller: passwordController,
                       labelText: 'Password',
-                      hintText: 'Enter you password',
+                      hintText: 'Enter your password',
                       obscureText: true,
                       prefixIcon: const Icon(Icons.lock),
                       onChanged: authController.updatePassword,

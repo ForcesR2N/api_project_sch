@@ -15,6 +15,11 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
   final AuthController authController = Get.put(AuthController());
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController fullNameController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,8 +35,9 @@ class _RegisterPageState extends State<RegisterPage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   MyTextfield(
+                    controller: usernameController,
                     labelText: 'Username',
-                    hintText: 'Enter you username',
+                    hintText: 'Enter your username',
                     obscureText: false,
                     prefixIcon: Icon(Icons.person_2_outlined),
                     onChanged: authController.updateUsername,
@@ -46,8 +52,9 @@ class _RegisterPageState extends State<RegisterPage> {
                     height: 16,
                   ),
                   MyTextfield(
+                    controller: fullNameController,
                     labelText: 'Full Name',
-                    hintText: 'Enter you full name',
+                    hintText: 'Enter your full name',
                     obscureText: false,
                     prefixIcon: const Icon(Icons.badge_outlined),
                     onChanged: authController.updateFullName,
@@ -62,8 +69,9 @@ class _RegisterPageState extends State<RegisterPage> {
                     height: 16,
                   ),
                   MyTextfield(
+                    controller: emailController,
                     labelText: 'Email',
-                    hintText: 'Enter you email',
+                    hintText: 'Enter your email',
                     obscureText: false,
                     prefixIcon: Icon(Icons.email_outlined),
                     onChanged: authController.updateEmail,
@@ -78,8 +86,9 @@ class _RegisterPageState extends State<RegisterPage> {
                     height: 16,
                   ),
                   MyTextfield(
+                    controller: passwordController,
                     labelText: 'Password',
-                    hintText: 'Enter you password',
+                    hintText: 'Enter your password',
                     obscureText: true,
                     prefixIcon: Icon(
                       Icons.lock_outline,
