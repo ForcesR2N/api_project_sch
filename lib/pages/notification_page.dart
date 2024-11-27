@@ -37,7 +37,7 @@ class NotificationPage extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 7),
               Text(
                 message.notification?.body ?? 'No Body',
                 style: const TextStyle(
