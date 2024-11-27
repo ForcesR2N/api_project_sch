@@ -3,7 +3,7 @@ import 'package:api_project/controllers/auth_controller.dart';
 import 'package:api_project/controllers/bottom_navbar_controller.dart';
 import 'package:api_project/pages/home.dart';
 import 'package:api_project/pages/profile_page.dart';
-import 'package:api_project/pages/search_page.dart';
+import 'package:api_project/pages/notification_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,7 +16,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Widget> menus = [
       Home(),
-      SearchPage(),
+      NotificationPage(),
       ProfilePage(
         authController: Get.find<AuthController>(),
       ),
