@@ -42,8 +42,8 @@ class Home extends StatelessWidget {
                 children: [
                   Lottie.asset('lib/assets/animation_loading.json',
                       width: 200, height: 200),
-                  SizedBox(height: 16),
-                  Text(
+                  const SizedBox(height: 16),
+                  const Text(
                     'Loading teams...',
                     style: TextStyle(
                       color: Colors.grey,
@@ -132,7 +132,7 @@ class Home extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10),
                                 child: team.strBadge.isNotEmpty
                                     ? ColorFiltered(
-                                        colorFilter: ColorFilter.mode(
+                                        colorFilter: const ColorFilter.mode(
                                           AppColor.primaryBlue,
                                           BlendMode.dstATop,
                                         ),

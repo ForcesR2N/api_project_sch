@@ -1,7 +1,4 @@
-import 'package:api_project/component/my_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:http/http.dart';
 
 class ExpandableDescription extends StatefulWidget {
   final String description;
@@ -36,7 +33,7 @@ class _ExpandableDescriptionState extends State<ExpandableDescription> {
         const SizedBox(height: 8),
         Text(
           displayText,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 16,
             color: Colors.white70,
             height: 1.5,

@@ -5,7 +5,6 @@ import 'package:api_project/pages/home_page.dart';
 import 'package:api_project/pages/login_register/login_page.dart';
 import 'package:api_project/pages/notification_page.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'firebase_options.dart';
