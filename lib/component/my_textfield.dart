@@ -10,7 +10,7 @@ class MyTextfield extends StatelessWidget {
   final String? Function(String?)? validator;
   final TextEditingController? controller;
 
-  MyTextfield(
+  const MyTextfield(
       {super.key,
       required this.labelText,
       required this.hintText,
@@ -28,15 +28,15 @@ class MyTextfield extends StatelessWidget {
         decoration: InputDecoration(
           labelText: labelText,
           hintText: hintText,
-          labelStyle: TextStyle(color: AppColor.primaryBlue),
+          labelStyle: const TextStyle(color: AppColor.primaryBlue),
           prefixIcon: prefixIcon,
           filled: true,
           fillColor: Colors.white,
           contentPadding:
-              EdgeInsets.symmetric(horizontal: 14.0, vertical: 12.0),
+              const EdgeInsets.symmetric(horizontal: 14.0, vertical: 12.0),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.0),
-            borderSide: BorderSide(
+            borderSide: const BorderSide(
               color: AppColor.primaryBlue,
               width: 1.5,
             ),
