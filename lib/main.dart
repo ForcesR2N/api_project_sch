@@ -21,11 +21,11 @@ void main() async {
   final authController = Get.put(AuthController());
   await authController.initializeController();
   await FirebaseApi().initNotifications();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
+  const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
     final authController = Get.find<AuthController>();
