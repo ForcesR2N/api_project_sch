@@ -28,7 +28,7 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Center(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.all(24.0),
+            padding: const EdgeInsets.all(24.0),
             child: Form(
               key: _formKey,
               child: Column(
@@ -39,7 +39,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     labelText: 'Username',
                     hintText: 'Enter your username',
                     obscureText: false,
-                    prefixIcon: Icon(Icons.person_2_outlined),
+                    prefixIcon: const Icon(Icons.person_2_outlined),
                     onChanged: authController.updateUsername,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
@@ -73,7 +73,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     labelText: 'Email',
                     hintText: 'Enter your email',
                     obscureText: false,
-                    prefixIcon: Icon(Icons.email_outlined),
+                    prefixIcon: const Icon(Icons.email_outlined),
                     onChanged: authController.updateEmail,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
@@ -90,7 +90,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     labelText: 'Password',
                     hintText: 'Enter your password',
                     obscureText: true,
-                    prefixIcon: Icon(
+                    prefixIcon: const Icon(
                       Icons.lock_outline,
                     ),
                     onChanged: authController.updatePassword,
